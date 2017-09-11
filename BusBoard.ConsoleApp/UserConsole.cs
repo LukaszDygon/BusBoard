@@ -18,11 +18,19 @@ namespace BusBoard.ConsoleApp
                 try
                 {
                     //printTopResults(userInput[0], 5);
-                    GetCoordinatesFromPostCode(userInput[0]);
+                    var location = GetCoordinatesFromPostCode(userInput[0]);
+                    var closestBusStops = GetStationId(location);
+                    Console.WriteLine($"{closestBusStops[0].StopId}");
+
+
+                    printTopResults(closestBusStops[0].StopId, 5);
+
+
+                    printTopResults(closestBusStops[1].StopId, 5);
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"Invalid stopcode {e}");
+                    Console.WriteLine($"Invalid address {e}");
                 }
             }
         }
@@ -40,7 +48,7 @@ namespace BusBoard.ConsoleApp
         private void printSingleResult(BusArrival info)
         {
             Console.WriteLine($"{info.LineName} towards {info.DestinationName}");
-            Console.WriteLine(info.ExpectedArrival);
+            Console.WriteLine(info.ExpectedArrival.ToLocalTime());
             Console.WriteLine("\n");
 
         }
@@ -66,12 +74,28 @@ namespace BusBoard.ConsoleApp
         {
             var client = new RestClient(@"https://api.postcodes.io");
             var request = new RestRequest($@"postcodes/{postCode}", Method.GET);
+            request.RequestFormat = DataFormat.Json;
             var response = client.Execute<Coordinate>(request);
 
-            Console.WriteLine(response.Data.Latitude.ToString());
-            Console.WriteLine(response.Data.Longitude.ToString());
+            //Console.WriteLine(response.Data);
+
+            Console.WriteLine(response.Data.Latitude);
+            Console.WriteLine(response.Data.Longitude);
 
             return response.Data;
+        }
+
+        private List<BusStop> GetStationId(Coordinate location)
+        {
+            var client = new RestClient(@"https://api.tfl.gov.uk");
+            var request = new RestRequest($@"StopPoint?lat={location.Latitude}&lon={location.Longitude}"+
+                                            "&stoptypes=NaptanPublicBusCoachTram&modes=bus", Method.GET);
+            request.RequestFormat = DataFormat.Json;
+            var response = client.Execute<BusStopResponse>(request);
+            Console.WriteLine($"the stop ID {response.Data.BusStops[0].StopId}");
+
+            return response.Data.BusStops;
+
         }
     }
 }

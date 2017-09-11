@@ -9,8 +9,10 @@ namespace BusBoard.ConsoleApp
 {
     class Coordinate
     {
-        //[DeserializeAs(Name = "longitude")]
-        public decimal Longitude { get; set; }
-        public decimal Latitude { get; set; }
+        [RestSharp.Deserializers.DeserializeAs(Name = "result.longitude")]
+        public string Longitude { get; set; }
+
+        [RestSharp.Deserializers.DeserializeAs(Name = "result.latitude")]
+        public string Latitude { get; set; }
     }
 }
