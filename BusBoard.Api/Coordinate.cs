@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
 
-namespace BusBoard.ConsoleApp
+namespace BusBoard.Api
 {
-    class Coordinate
+    public class Coordinate
     {
         [RestSharp.Deserializers.DeserializeAs(Name = "result.longitude")]
         public string Longitude { get; set; }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusBoard.ConsoleApp
+namespace BusBoard.Api
 {
-    class BusArrival
+    public class BusArrival
     {
         //public string type {get; set;}
         public string Id { get; set; }

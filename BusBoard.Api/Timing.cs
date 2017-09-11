@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusBoard.ConsoleApp
+namespace BusBoard.Api
 {
-    class Timing
+    public class Timing
     {
         //DateTime type;
         public DateTime CountdownServerAdjustment { get; set; }

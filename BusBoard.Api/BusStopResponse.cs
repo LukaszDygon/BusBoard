@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusBoard.ConsoleApp
+namespace BusBoard.Api
 {
-    class BusStopResponse
+    public class BusStopResponse
     {
         public string Type { get; set; }
 

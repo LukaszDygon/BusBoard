@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusBoard.ConsoleApp
+namespace BusBoard.Api
 {
-    class BusStop
+    public class BusStop
     {
         [RestSharp.Deserializers.DeserializeAs(Name = "naptanId")]
         public string StopId { get; set; }
