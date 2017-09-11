@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
+using System.Net;
 
 namespace BusBoard.ConsoleApp
 {
@@ -11,6 +12,7 @@ namespace BusBoard.ConsoleApp
     {
         static void Main(string[] args)
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string stopId = "490008660N";
             PrintBusArivalsForStop(stopId);
             Console.ReadKey();
@@ -18,12 +20,17 @@ namespace BusBoard.ConsoleApp
 
         static void PrintBusArivalsForStop(string stopId)
         {
-            var client = new RestClient("https://api-radon.tfl.gov.uk/");
-            //var request = new RestRequest(String.Format(@"StopPoint/{0}/Arrivals", stopId), Method.GET);
-            var request = new RestRequest("StopPoint/490008660N/Arrivals", Method.GET);
-            IRestResponse response = client.Execute(request);
-
-            Console.WriteLine(response.StatusCode);
+            var client = new RestClient(@"https://api.tfl.gov.uk");
+            var request = new RestRequest($@"StopPoint/{stopId}/Arrivals", Method.GET);
+            request.RequestFormat = DataFormat.Json;
+            var response = client.Execute<List<BusArrival>>(request);
+            
+            foreach(var r in response.Data)
+            {
+                Console.WriteLine(r.ExpectedArrival);
+            }
+            
+            Console.WriteLine(response.Data);
         }
     }
 }
