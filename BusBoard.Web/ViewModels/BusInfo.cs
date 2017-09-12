@@ -9,6 +9,7 @@ namespace BusBoard.Web.ViewModels
         public BusInfo(string postCode)
         {
             PostCode = postCode;
+            Coordinate = new Coordinate();
             BusStops = BusApi.GetTopReultsForPostcode(postCode, 5);
         }
 
