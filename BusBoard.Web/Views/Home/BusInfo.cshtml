@@ -1,10 +1,31 @@
 ﻿@model BusBoard.Web.ViewModels.BusInfo
 @{
-  ViewBag.Title = "Bus Information";
+    ViewBag.Title = "Bus Information";
 }
 
-<h2>BusInfo</h2>
+<head>
+    <meta http-equiv="refresh" content="1" />
+</head>
 
+<h2>BusInfo</h2>
 <div class="row">
     <p>You entered postcode @Model.PostCode</p>
+</div>
+<div>
+    <!--Model.BusStops.RefreshResults();-->
+
+    @foreach (var busStop in Model.BusStops)
+    {
+        
+        <h3>@busStop.StopName</h3>
+        <ul>
+            @foreach (var arrival in busStop.BusArrivals)
+            {
+                <li>
+                    <p>@arrival.LineName towards @arrival.DestinationName</p>
+                    <p>Arrives in @(arrival.ExpectedArrival.ToLocalTime().Minute - DateTime.Now.Minute) minutes</p>
+                </li>
+            }
+        </ul>
+    }
 </div>
