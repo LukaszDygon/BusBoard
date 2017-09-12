@@ -15,4 +15,10 @@ namespace BusBoard.Api
         public string StopName { get; set; }
         public List<BusArrival> BusArrivals { get; set; }
 
+        public void refreshArrivals()
+        {
+            BusArrivals = BusApi.GetBusArivalsForStop(this);
+        }
+    }
+
 }
