@@ -1,10 +1,11 @@
-﻿namespace BusBoard.Web.Models
+﻿using BusBoard.Api;
+
+namespace BusBoard.Web.Models
 {
   public class PostcodeSelection
   {
     public string Postcode { get; set; }
-
-    public bool CheckValid { get; set; }
+    public Coordinate Location { get; set; }
 
   }
 }

@@ -1,4 +1,5 @@
-﻿@model BusBoard.Web.Models.PostcodeSelection
+﻿
+@model BusBoard.Web.Models.PostcodeSelection
 @{
     ViewBag.Title = "Home Page";
 }
@@ -15,9 +16,12 @@
         <fieldset>
             <legend>Post Code:</legend>
             @Html.TextBoxFor(m => m.Postcode)
-
             <input type="submit" value="Get Bus Info" />
+            <input type="button" value="User Current Location" onclick="getLocation()" />
         </fieldset>
         }
     </div>
+</div>
+<div>
+    <p id="location-output"></p>
 </div>

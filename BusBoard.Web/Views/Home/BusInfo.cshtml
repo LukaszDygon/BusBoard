@@ -15,8 +15,9 @@
     <p>You entered postcode @Model.PostCode</p>
 </div>
 <div>
-    <!--Model.BusStops.RefreshResults();-->
-    @foreach (var busStop in Model.BusStops)
+    @if (Model.BusStops != null)
+    {
+        foreach (var busStop in Model.BusStops)
         {
             busStop.refreshArrivals();
             <h3>@busStop.StopName</h3>
@@ -30,4 +31,9 @@
                 }
             </ul>
         }
+    }
+    else
+    {
+        <p>Invalid Postcode entered</p>
+    }
 </div>

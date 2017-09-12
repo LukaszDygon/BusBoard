@@ -12,7 +12,26 @@ namespace BusBoard.Api
         public static List<BusStop> GetTopReultsForPostcode(string postcode, int numberOfResults)
         {
             var location = GetCoordinatesFromPostCode(postcode);
-            List<BusStop> busStops = GetStationId(location);
+            List<BusStop> busStops = GetBusStopFromCoordinate(location);
+            //var busArrivals = new List<List<BusArrival>>();
+            try
+            {
+                foreach (var busStop in busStops)
+                {
+                    var arrivals = GetBusArivalsForStop(busStop);
+                    busStop.BusArrivals = GetTopResults(arrivals, numberOfResults);
+                }
+            }
+            catch (Exception e)
+            {
+            }
+
+            return busStops;
+        }
+
+        public static List<BusStop> GetTopReultsForCoordinate(Coordinate location, int numberOfResults)
+        {
+            List<BusStop> busStops = GetBusStopFromCoordinate(location);
             //var busArrivals = new List<List<BusArrival>>();
             try
             {
@@ -58,7 +77,7 @@ namespace BusBoard.Api
             return response.Data;
         }
 
-        private static List<BusStop> GetStationId(Coordinate location)
+        private static List<BusStop> GetBusStopFromCoordinate(Coordinate location)
         {
             var client = new RestClient(@"https://api.tfl.gov.uk");
             var request = new RestRequest($@"StopPoint?lat={location.Latitude}&lon={location.Longitude}" +
