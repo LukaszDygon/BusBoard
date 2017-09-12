@@ -4,5 +4,7 @@
   {
     public string Postcode { get; set; }
 
+    public bool CheckValid { get; set; }
+
   }
 }

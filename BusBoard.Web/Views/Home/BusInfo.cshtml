@@ -1,10 +1,13 @@
-﻿@model BusBoard.Web.ViewModels.BusInfo
+﻿@using System.Threading;
+
+@model BusBoard.Web.ViewModels.BusInfo
 @{
+
     ViewBag.Title = "Bus Information";
 }
 
 <head>
-    <meta http-equiv="refresh" content="1" />
+    <meta http-equiv="refresh" content="5" />
 </head>
 
 <h2>BusInfo</h2>
@@ -13,19 +16,18 @@
 </div>
 <div>
     <!--Model.BusStops.RefreshResults();-->
-
     @foreach (var busStop in Model.BusStops)
-    {
-        
-        <h3>@busStop.StopName</h3>
-        <ul>
-            @foreach (var arrival in busStop.BusArrivals)
-            {
-                <li>
-                    <p>@arrival.LineName towards @arrival.DestinationName</p>
-                    <p>Arrives in @(arrival.ExpectedArrival.ToLocalTime().Minute - DateTime.Now.Minute) minutes</p>
-                </li>
-            }
-        </ul>
-    }
+        {
+            busStop.refreshArrivals();
+            <h3>@busStop.StopName</h3>
+            <ul>
+                @foreach (var arrival in busStop.BusArrivals.OrderBy(x => x.ExpectedArrival))
+                {
+                    <li>
+                        <p>@arrival.LineName towards @arrival.DestinationName</p>
+                        <p>Arrives in @((arrival.ExpectedArrival.ToLocalTime() - DateTime.Now).Minutes) minutes</p>
+                    </li>
+                }
+            </ul>
+        }
 </div>
