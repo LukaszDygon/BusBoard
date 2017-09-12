@@ -65,8 +65,6 @@ namespace BusBoard.Api
             return topResults;
         }
 
-        
-
         private static Coordinate GetCoordinatesFromPostCode(string postCode)
         {
             var client = new RestClient(@"https://api.postcodes.io");

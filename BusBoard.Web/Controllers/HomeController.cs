@@ -19,14 +19,15 @@ namespace BusBoard.Web.Controllers
             // Write code here to populate the view model with info from the APIs.
             // Then modify the view (in Views/Home/BusInfo.cshtml) to render upcoming buses.
             BusInfo info;
-            if (selection.Location != null)
-            {
-                info = new BusInfo(selection.Location);
-            }
-            else
+            if (selection.Postcode != null)
             {
                 info = new BusInfo(selection.Postcode);
             }
+            else
+            {
+                info = new BusInfo(selection.Location);
+            }
+            info.UpdateBusStopsFromApi();
             return View(info);
         }
 

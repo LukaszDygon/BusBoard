@@ -10,18 +10,45 @@ namespace BusBoard.Web.ViewModels
         {
             PostCode = postCode;
             Coordinate = new Coordinate();
-            BusStops = BusApi.GetTopReultsForPostcode(postCode, 5);
         }
 
         public BusInfo(Coordinate coordinate)
         {
             Coordinate = coordinate;
-            BusStops = BusApi.GetTopReultsForCoordinate(coordinate, 5);
         }
 
         public string PostCode { get; set; }
         public Coordinate Coordinate { get; set; }
         public List<BusStop> BusStops { get; set; }
 
+        public void AddBusStops(List<BusStop> busStops)
+        {
+            foreach(var busStop in busStops)
+            {
+                AddBusStop(busStop);
+            }
+        }
+
+        public void AddBusStop(BusStop busStop)
+        {
+            BusStops.Add(busStop);
+        }
+
+        public void UpdateBusStopsFromApi()
+        {
+            try
+            {
+                if (Coordinate.Latitude != null && Coordinate.Longitude != null)
+                {
+                    BusStops = BusApi.GetTopReultsForCoordinate(Coordinate, 5);
+                }
+                else
+                {
+                    BusStops = BusApi.GetTopReultsForPostcode(PostCode, 5);
+                }
+            }
+            catch { }
+        }
     }
+
 }

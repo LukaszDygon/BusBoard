@@ -12,25 +12,32 @@
 
 <h2>BusInfo</h2>
 <div class="row">
-    <p>You entered postcode @Model.PostCode</p>
-    <p>You entered Coordinate @Model.Coordinate.Longitude, @Model.Coordinate.Latitude</p>
+    <!--<p>You entered postcode @Model.PostCode</p>
+    <p>You entered Coordinate @Model.Coordinate.Longitude, @Model.Coordinate.Latitude</p>-->
 </div>
 <div>
     @if (Model.BusStops != null)
     {
+        Model.UpdateBusStopsFromApi();
         foreach (var busStop in Model.BusStops)
         {
-            busStop.refreshArrivals();
-            <h3>@busStop.StopName</h3>
-            <ul>
-                @foreach (var arrival in busStop.BusArrivals.OrderBy(x => x.ExpectedArrival))
-                {
-                    <li>
-                        <p>@arrival.LineName towards @arrival.DestinationName</p>
-                        <p>Arrives in @((arrival.ExpectedArrival.ToLocalTime() - DateTime.Now).Minutes) minutes</p>
-                    </li>
-                }
-            </ul>
+            <h4>@busStop.StopName (stop @busStop.StopLetter)</h4>
+
+            foreach (var arrival in busStop.BusArrivals.OrderBy(x => x.ExpectedArrival))
+            {
+                <div class="row">
+                    
+                        <div colo class="col-xs-6">@arrival.LineName towards @arrival.DestinationName</div>
+                    @if ((arrival.ExpectedArrival.ToLocalTime() - DateTime.Now).Minutes < 3)
+                    {
+                        <div class="text-danger col-xs-6">Arrives in @((arrival.ExpectedArrival.ToLocalTime() - DateTime.Now).Seconds) seconds</div>
+                    }
+                    else
+                    {
+                        <div class="col-xs-6">Arrives in @((arrival.ExpectedArrival.ToLocalTime() - DateTime.Now).Minutes) minutes</div>
+                    }
+                </div>
+            }
         }
     }
     else

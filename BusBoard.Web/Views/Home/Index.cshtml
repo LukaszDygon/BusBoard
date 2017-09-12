@@ -15,12 +15,10 @@
         <fieldset>
             <legend>Post Code:</legend>
             @Html.TextBoxFor(m => m.Postcode)
-            <input type="text" id="location-longitude" name="location-longitude" hidden value="" />
-            <input type="text" id="location-latitude" name="location-latitude" hidden value="" />
             @Html.HiddenFor(m => m.Location.Latitude)
             @Html.HiddenFor(m => m.Location.Longitude)
             <input type="submit" value="Get Bus Info" />
-            <input type="button" name="get-location-button" value="User Current Location" onload="getLocation()" />
+            <input type="submit" name="get-location-button" value="User Current Location" onmousedown="getLocation()" />
         </fieldset>
         }
     </div>
